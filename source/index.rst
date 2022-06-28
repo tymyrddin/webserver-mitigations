@@ -6,6 +6,10 @@
 Webserver mitigations
 =================================================
 
+All `Mitigations`_.
+
+.. _Mitigations: https://tymyrddin.github.io/mitigations/
+
 .. toctree::
    :glob:
    :maxdepth: 1
