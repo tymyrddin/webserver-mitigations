@@ -80,5 +80,5 @@ Configuration file
 
 ## The automated way for Nginx 
 
-For Nginx there is a script called [n2chroot](https://github.com/doublerebel/nginx-chroot/blob/master/install_files/n2chroot) to copy shared (libs) files to nginx chrooted jail server. This is tested on 64 bit Linux (Redhat and Friends only). It must be edited so that var BASE points to the chroot directory. 
+For Nginx there is a script called [n2chroot](https://github.com/doublerebel/nginx-chroot/blob/master/install_files/n2chroot) to copy shared (libs) files to nginx chrooted jail server. This is tested on 64-bit Linux (Redhat and Friends only). It must be edited so that var BASE points to the chroot directory. 
 
