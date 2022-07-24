@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install and use mod_security &mdash; Webserver mitigations</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Restrict file and directory access" href="Restrict-file-and-directory-access.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Webserver mitigations
+            <img src="../../_static/logo.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Apache</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../apache/README.html">Apache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/Chroot-Apache.html">Chroot Apache</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/Disable-SSI-and-CGI-execution.html">Disable SSI and CGI execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/Disable-directory-listing.html">Disable directory listing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/Hide-version-and-OS-identity.html">Hide version and OS identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/Restrict-file-and-directory-access.html">Restrict file and directory access</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../apache/mod_security.html">Install and use mod_security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Nginx</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="README.html">Nginx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Chroot-Nginx.html">Chroot Nginx</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Disable-SSI-and-CGI-execution.html">Disable SSI and CGI execution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Hide-version-and-OS-identity.html">Hide version and OS identity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Restrict-file-and-directory-access.html">Restrict file and directory access</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Install and use mod_security</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">All mitigations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://tymyrddin.github.io/mitigations/">Overview</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Webserver mitigations</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Install and use mod_security</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/docs/nginx/mod_security.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="install-and-use-mod-security">
+<h1>Install and use mod_security<a class="headerlink" href="#install-and-use-mod-security" title="Permalink to this heading"></a></h1>
+<p>ModSecurity was originally developed for Apache, but is now also available for Nginx (and other platforms) in a “standalone” version.</p>
+<p>To install it without (re)compiling Nginx, install the dependencies:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># apt-get install libxml2 libxml2-dev libxml2-utils libaprutil1 libaprutil1-dev
+</pre></div>
+</div>
+<p>And download, compile and install <code class="docutils literal notranslate"><span class="pre">mod_security</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># git clone https://github.com/SpiderLabs/ModSecurity.git mod_security
+# cd mod_security
+~/mod_security# ./autogen.sh
+~/mod_security# ./configure --enable-standalone-module
+~/mod_security# make
+</pre></div>
+</div>
+<p>To compile Nginx from source with the modsecurity module (check for latest version here: http://nginx.org/en/download.html)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># wget http://www.nginx.org/download/nginx-1.9.5.tar.gz
+# tar -xvpzf nginx-1.9.5.tar.gz
+# cd nginx-1.9.5
+~/nginx-1.9.5# ./configure --add-module=../mod_security/nginx/modsecurity
+~/nginx-1.9.5# make
+~/nginx-1.9.5# make install
+</pre></div>
+</div>
+<p>The ModSecurity configuration file must be defined in the <code class="docutils literal notranslate"><span class="pre">nginx.conf</span></code> file, something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>server {
+   listen       80;
+   server_name  localhost;
+
+   location / {
+      ModSecurityEnabled on;
+      ModSecurityConfig modsecurity.conf;
+   }
+
+}
+</pre></div>
+</div>
+<p>For custom rules applied to different directories, create new mod_security.conf files, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>location /secured {
+   ModSecurityConfig modsecurity3.conf; 
+   proxy_pass http://secured.core.com/;
+   proxy_read_timeout 180s;
+}
+</pre></div>
+</div>
+<p>To turn it off for a particular directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>location /unsecured/ {
+   ModSecurityEnabled off;
+   proxy_pass http://unsecured.core.com/;
+   proxy_read_timeout 180s;
+}
+</pre></div>
+</div>
+<p>Restart Nginx.</p>
+<p>Have a look at the <a class="reference external" href="https://www.owasp.org/index.php/Category:OWASP_ModSecurity_Core_Rule_Set_Project">OWASP ModSecurity Core Rule Set Project</a> (CRS) for making more secure changes. The CRS aims to protect web applications from a wide range of attacks, with a minimum of false alerts.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Restrict-file-and-directory-access.html" class="btn btn-neutral float-left" title="Restrict file and directory access" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+        <a href="https://unseen-uni.netlify.app/">Unseen University</a>, 2022
+
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(false);
+      });
+  </script> 
+
+</body>
+</html>
